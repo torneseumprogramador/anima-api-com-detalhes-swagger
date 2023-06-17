@@ -1,15 +1,28 @@
+using Microsoft.EntityFrameworkCore;
+using webapi.crud.dundermifflin.Contexts;
+using webapi.crud.dundermifflin.Extensions;
+using webapi.crud.dundermifflin.Services.Interfaces;
+using webapi.crud.dundermifflin.Services;
+using webapi.crud.dundermifflin.Repositories.Interfaces;
+using webapi.crud.dundermifflin.Repository;
+using webapi.crud.dundermifflin.Mappers;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddTransient<IFuncionarioService, FuncionarioService>();
+builder.Services.AddTransient<IFuncionarioRepository, FuncionarioRepository>();
+builder.Services.AddSingleton<IObjectConverter, ObjectConverter>();
+
+// Configure DbContext Sqlite
+builder.Services.AddDbContext<DunderMifflinDatabaseContext>(
+    options => options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection", true)));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,9 +30,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
