@@ -6,25 +6,28 @@ using webapi.crud.dundermifflin.Services;
 using webapi.crud.dundermifflin.Repositories.Interfaces;
 using webapi.crud.dundermifflin.Repository;
 using webapi.crud.dundermifflin.Mappers;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using webapi.crud.dundermifflin.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddApiVersioning(opt =>
+                                    {
+                                        opt.DefaultApiVersion = new ApiVersion(1, 0);
+                                        opt.AssumeDefaultVersionWhenUnspecified = true;
+                                        opt.ReportApiVersions = true;
+                                        opt.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
+                                                                                        new HeaderApiVersionReader("x-api-version"),
+                                                                                        new MediaTypeApiVersionReader("x-api-version"));
+                                    });
+
+builder.Services.AddVersionedApiExplorer(setup =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Dunder Mifflin Paper Company, Inc.",
-        Version = "1.0.1",
-        Contact = new OpenApiContact
-        {
-            Name = "Responsável pela Dunder Mifflin",
-            Email = "responsavel@dundermifflin.com",
-            Url = new Uri("https://www.dundermifflin.com")
-        }
-    });
+    setup.GroupNameFormat = "'v'VVV";
+    setup.SubstituteApiVersionInUrl = true;
 });
 
 builder.Services.AddTransient<IFuncionarioService, FuncionarioService>();
@@ -38,12 +41,24 @@ builder.Services.AddDbContext<DunderMifflinDatabaseContext>(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
     app.UseSwagger();
-    app.UseSwaggerUI(ui => ui.DefaultModelsExpandDepth(-1));
+    app.UseSwaggerUI(options =>
+    {
+        options.DefaultModelsExpandDepth(-1);
+        foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                description.GroupName.ToUpperInvariant());
+        }
+    });
 }
 
 app.UseHttpsRedirection();

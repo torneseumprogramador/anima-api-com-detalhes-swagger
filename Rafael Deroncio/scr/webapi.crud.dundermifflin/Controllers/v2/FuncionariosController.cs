@@ -6,10 +6,11 @@ using webapi.crud.dundermifflin.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 
-namespace webapi.crud.dundermifflin.Controllers;
+namespace webapi.crud.dundermifflin.Controllers.v2;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]")]
+[ApiVersion("2.0")]
 public class FuncionariosController : ControllerBase
 {
     private readonly IFuncionarioService _funcionarioService;
@@ -23,6 +24,7 @@ public class FuncionariosController : ControllerBase
     /// Obtém todos os funcionários.
     /// </summary>
     [HttpGet]
+    [MapToApiVersion("2.0")]
     [ProducesResponseType(typeof(IEnumerable<FuncionarioResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
@@ -38,10 +40,11 @@ public class FuncionariosController : ControllerBase
     /// </summary>
     /// <param name="id">ID do funcionário.</param>
     [HttpGet("{id}")]
+    [MapToApiVersion("2.0")]
     [ProducesResponseType(typeof(FuncionarioResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
-    [SwaggerOperation(Tags = new[] { "get", "recupera funcionario" },Summary = "Obtém um funcionário pelo ID", Description = "Retorna os detalhes de um funcionário com base no seu ID.")]
+    [SwaggerOperation(Tags = new[] { "get", "recupera funcionario" }, Summary = "Obtém um funcionário pelo ID", Description = "Retorna os detalhes de um funcionário com base no seu ID.")]
     public async Task<IActionResult> Get(int id)
     {
         return Ok(await _funcionarioService.GetFuncionario(id));
@@ -52,6 +55,7 @@ public class FuncionariosController : ControllerBase
     /// </summary>
     /// <param name="funcionario">Dados do funcionário a ser criado.</param>
     [HttpPost]
+    [MapToApiVersion("2.0")]
     [ProducesResponseType(typeof(FuncionarioResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
@@ -67,6 +71,7 @@ public class FuncionariosController : ControllerBase
     /// <param name="id">ID do funcionário a ser atualizado.</param>
     /// <param name="funcionario">Novos dados do funcionário.</param>
     [HttpPut("{id}")]
+    [MapToApiVersion("2.0")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
@@ -81,6 +86,7 @@ public class FuncionariosController : ControllerBase
     /// </summary>
     /// <param name="id">ID do funcionário a ser excluído.</param>
     [HttpDelete("{id}")]
+    [MapToApiVersion("2.0")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
