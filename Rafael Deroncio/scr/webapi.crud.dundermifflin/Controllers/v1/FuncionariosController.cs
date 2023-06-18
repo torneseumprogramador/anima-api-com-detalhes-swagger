@@ -26,8 +26,8 @@ public class FuncionariosController : ControllerBase
     [HttpGet]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(IEnumerable<FuncionarioResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
-    [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status503ServiceUnavailable)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status400BadRequest)]
     [SwaggerOperation(Tags = new[] { "get", "recupera funcionarios" }, Summary = "Obtém todos os funcionários", Description = "Retorna uma lista de todos os funcionários.")]
     [ApiExplorerSettings()]
     public async Task<IActionResult> Get()
@@ -42,8 +42,8 @@ public class FuncionariosController : ControllerBase
     [HttpGet("{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(FuncionarioResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
-    [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status503ServiceUnavailable)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status400BadRequest)]
     [SwaggerOperation(Tags = new[] { "get", "recupera funcionario" },Summary = "Obtém um funcionário pelo ID", Description = "Retorna os detalhes de um funcionário com base no seu ID.")]
     public async Task<IActionResult> Get(int id)
     {
@@ -57,8 +57,8 @@ public class FuncionariosController : ControllerBase
     [HttpPost]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(FuncionarioResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
-    [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status503ServiceUnavailable)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status400BadRequest)]
     [SwaggerOperation(Tags = new[] { "post", "cria funcionario" }, Summary = "Cria um novo funcionário", Description = "Cria um novo funcionário com base nos dados fornecidos.")]
     public async Task<IActionResult> Post([FromBody] FuncionarioRequest funcionario)
     {
@@ -73,8 +73,8 @@ public class FuncionariosController : ControllerBase
     [HttpPut("{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
-    [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status503ServiceUnavailable)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status400BadRequest)]
     [SwaggerOperation(Tags = new[] { "put", "atualiza funcionario" }, Summary = "Atualiza um funcionário existente", Description = "Atualiza os dados de um funcionário existente com base no ID fornecido.")]
     public async Task<IActionResult> Put(int id, [FromBody] FuncionarioRequest funcionario)
     {
@@ -88,8 +88,8 @@ public class FuncionariosController : ControllerBase
     [HttpDelete("{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(FuncionarioServiceUnavailableException), StatusCodes.Status503ServiceUnavailable)]
-    [ProducesResponseType(typeof(FuncionarioBadRequestException), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status503ServiceUnavailable)]
+    [ProducesResponseType(typeof(FuncionarioExceptionResponse), StatusCodes.Status400BadRequest)]
     [SwaggerOperation(Tags = new[] { "delete", "deleta funcionario" }, Summary = "Exclui um funcionário pelo ID", Description = "Exclui um funcionário com base no seu ID.")]
     public async Task<IActionResult> Delete(int id)
     {

@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using webapi.crud.dundermifflin.Contexts;
 using webapi.crud.dundermifflin.Extensions;
 using webapi.crud.dundermifflin.Services.Interfaces;
@@ -6,10 +5,11 @@ using webapi.crud.dundermifflin.Services;
 using webapi.crud.dundermifflin.Repositories.Interfaces;
 using webapi.crud.dundermifflin.Repository;
 using webapi.crud.dundermifflin.Mappers;
+using webapi.crud.dundermifflin.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using webapi.crud.dundermifflin.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -60,6 +60,8 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
+
+app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
