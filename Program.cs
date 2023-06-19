@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Reflection;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using WebApi.Db;
@@ -10,10 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<CustomValidationExceptionFilter>();
-});
+//// Habilita para geral /////
+// builder.Services.AddControllers(options =>
+// {
+//     options.Filters.Add<CustomValidationExceptionFilter>();
+// });
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -29,6 +32,18 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 
+    // options.DocInclusionPredicate((docName, apiDesc) =>
+    // {
+    //     // Verificar se o grupo de ações corresponde ao grupo configurado
+    //     if (apiDesc.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+    //     {
+    //         var groupName = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<ApiExplorerSettingsAttribute>()?.GroupName;
+    //         return string.Equals(groupName, docName, StringComparison.OrdinalIgnoreCase);
+    //     }
+
+    //     return false;
+    // });
+
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
@@ -36,7 +51,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DbAppContext>(options =>
 {

@@ -8,7 +8,7 @@ using WebApi.Services;
 
 namespace webapi.Controllers.v1;
 
-[ApiController]
+// [ApiController] // para habilitar a validação padrão
 [Route("/clientes")]
 public class ClientsController : ControllerBase
 {
