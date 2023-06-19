@@ -11,7 +11,8 @@ using WebApi.Filters;
 
 namespace webapi.Controllers.v2;
 
-// [ApiController] // para habilitar a validação padrão
+[ApiController] // para habilitar a validação padrão
+// [CustomValidationExceptionFilter] // validação individual
 [Route("/v2/clientes")]
 public class ClientsController : ControllerBase
 {
@@ -33,7 +34,6 @@ public class ClientsController : ControllerBase
     }
 
     [HttpPost]
-    [CustomValidationExceptionFilter] // validação individual
     public async Task<ActionResult> Create([FromBody] ClientDTO clientDTO)
     {
         var client = new BuilderDtoToEntity().Build<Client, ClientDTO>(clientDTO);
@@ -61,7 +61,7 @@ public class ClientsController : ControllerBase
     /// <param name="id"></param>
     /// <param name="clientDTO"></param>
     /// <returns></returns>
-    [ApiExplorerSettings(GroupName="Clientes")]
+    // [ApiExplorerSettings(GroupName="Clientes")]
     [SwaggerOperation(Tags = new[] { "put", "update" }, Summary = "Atualização do cliente", Description = "Faz atualização de todos os campos da entidade de cliente")]
     [ProducesResponseType(200, Type = typeof(Client))]
     [ProducesResponseType(404, Type = typeof(ApiError))]
