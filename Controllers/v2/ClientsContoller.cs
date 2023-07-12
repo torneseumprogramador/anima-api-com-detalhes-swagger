@@ -11,6 +11,7 @@ using WebApi.Filters;
 
 namespace webapi.Controllers.v2;
 
+[Authentication]
 [ApiController] // para habilitar a validação padrão
 // [CustomValidationExceptionFilter] // validação individual
 [Route("/v2/clientes")]

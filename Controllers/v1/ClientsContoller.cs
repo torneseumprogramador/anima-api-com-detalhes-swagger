@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using WebApi.Entities;
 using WebApi.DTOs;
 using WebApi.Services;
+using WebApi.Filters;
 
 namespace webapi.Controllers.v1;
 
 // [ApiController] // para habilitar a validação padrão
+[Authentication]
 [Route("/clientes")]
 public class ClientsController : ControllerBase
 {
